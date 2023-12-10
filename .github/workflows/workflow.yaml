@@ -14,4 +14,5 @@ jobs:
         run: docker tag testapp localhost:5000/testapp:$GITHUB_SHA
       - name: Push image
         run: docker push localhost:5000/testapp:$GITHUB_SHA
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Apply k8s
+        run: TAG=$GITHUB_SHA envsubst < /home/william/infrastructure/testapp.yaml | microk8s.kubectl apply -f -
