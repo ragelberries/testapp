@@ -1,6 +1,6 @@
 <template>
   <div class="privacy">
-    <h1>This is a privacy page</h1>
+    <h1>This is a privacy page aaaaaaaaaaaaah</h1>
   </div>
 </template>
 
