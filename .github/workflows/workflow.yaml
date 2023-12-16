@@ -8,9 +8,12 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - name: Check out repository code
         uses: actions/checkout@v4
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
       - name: Build image
         run: docker build -t testapp .
       - name: Tag image
-        run: docker tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+        run: docker tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ steps.vars.outputs.sha_short }}
       - name: Push image
-        run: docker push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+        run: docker push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ steps.vars.outputs.sha_short }}
