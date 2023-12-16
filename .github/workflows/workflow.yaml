@@ -11,6 +11,6 @@ jobs:
       - name: Build image
         run: docker build -t testapp .
       - name: Tag image
-        run: docker tag testapp ${{CONTAINER_REGISTRY}}/testapp:$GITHUB_SHA
+        run: docker tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:$GITHUB_SHA
       - name: Push image
-        run: docker push ${{CONTAINER_REGISTRY}}/testapp:$GITHUB_SHA
+        run: docker push ${{ vars.CONTAINER_REGISTRY }}/testapp:$GITHUB_SHA
