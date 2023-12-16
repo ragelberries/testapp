@@ -2,5 +2,5 @@
 </script>
 
 <template>
-    <h1>Comp !!!</h1>
+    <h1>Comp AAA</h1>
 </template>
