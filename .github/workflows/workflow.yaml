@@ -11,8 +11,6 @@ jobs:
       - name: Build image
         run: docker build -t testapp .
       - name: Tag image
-        run: docker tag testapp localhost:5000/testapp:$GITHUB_SHA
+        run: docker tag testapp $CONTAINER_REGISTRY/testapp:$GITHUB_SHA
       - name: Push image
         run: docker push localhost:5000/testapp:$GITHUB_SHA
-      - name: Apply k8s
-        run: TAG=$GITHUB_SHA envsubst < /home/william/infrastructure/testapp.yaml | microk8s.kubectl apply -f -
