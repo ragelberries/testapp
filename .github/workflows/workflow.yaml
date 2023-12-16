@@ -9,8 +9,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Build image
-        run: docker build -t testapp .
+        run: podman build -t testapp .
       - name: Tag image
-        run: docker tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+        run: podman tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
       - name: Push image
-        run: docker push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+        run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
