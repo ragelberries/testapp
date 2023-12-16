@@ -13,3 +13,9 @@ jobs:
         run: podman tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
       - name: Push image
         run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+      - name: Cleanup
+        run: |
+          ls -la ./
+          rm -rf ./* || true
+          rm -rf ./.??* || true
+          ls -la ./
