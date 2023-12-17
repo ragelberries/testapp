@@ -1,4 +1,4 @@
-FROM node:21.4-alpine3.18 as build
+FROM docker.io/node:21.4-alpine3.18 as build
 
 WORKDIR /code
 COPY package.json package.json
@@ -9,5 +9,5 @@ RUN npm ci
 COPY . .
 
 RUN npm run build
-FROM nginx:latest
+FROM docker.io/nginx:latest
 COPY --from=build /code/dist /usr/share/nginx/html
