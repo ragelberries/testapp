@@ -2,5 +2,5 @@
 </script>
 
 <template>
-    <h1>Comp najsu</h1>
+    <h1>Comp public woho</h1>
 </template>

@@ -18,8 +18,12 @@ jobs:
         run: podman build -t testapp ./testapp
       - name: Tag image
         run: podman tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+      - name: Tag image latest
+        run: podman tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:latest
       - name: Push image
         run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
+      - name: Push image latest
+        run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:latest
       - name: Cleanup
         run: |
           ls -la ./
