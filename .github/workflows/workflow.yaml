@@ -24,6 +24,15 @@ jobs:
         run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
       - name: Push image latest
         run: podman push ${{ vars.CONTAINER_REGISTRY }}/testapp:latest
+      - name: Change infrastructure repo testapp tag
+        run: sed -i "s/testapp:[0-9a-f]\{40\}/testapp:${{ github.sha }}/gI" infrastructure/testapp.yaml
+      - name: Create pull request in infrastructure
+        uses: peter-evans/create-pull-request@v5
+        with:
+          path: infrastructure
+          token: ${{ secrets.INFRASTRUCTURE_PAT }}
+          commit-message: Updating testapp tag to ${{ github.sha }}
+
       - name: Cleanup
         run: |
           ls -la ./
