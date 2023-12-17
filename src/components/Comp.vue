@@ -2,5 +2,5 @@
 </script>
 
 <template>
-    <h1>Comp ci/cd</h1>
+    <h1>Comp ci/cd 2</h1>
 </template>
