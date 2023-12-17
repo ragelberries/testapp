@@ -7,8 +7,15 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+        with:
+          path: testapp
+      - name: Check out infrastructure code
+        uses: actions/checkout@v4
+        with:
+          repository: ragelberries/infrastructure
+          path: infrastructure
       - name: Build image
-        run: podman build -t testapp .
+        run: podman build -t testapp ./testapp
       - name: Tag image
         run: podman tag testapp ${{ vars.CONTAINER_REGISTRY }}/testapp:${{ github.sha }}
       - name: Push image
