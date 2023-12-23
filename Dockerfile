@@ -10,4 +10,5 @@ COPY . .
 
 RUN npm run build
 FROM docker.io/nginx:latest
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /code/dist /usr/share/nginx/html
