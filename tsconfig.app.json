@@ -4,10 +4,10 @@
         "env.d.ts",
         "src/**/*",
         "src/**/*.vue",
+        "src/stores/*.ts"
     ],
     "files": [
         "src/helpers/helpers.ts",
-        "src/stores/**"
     ],
   "exclude": [
         "src/**/__tests__/*"

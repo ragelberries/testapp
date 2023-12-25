@@ -8,7 +8,7 @@ export const useSessionStore = defineStore('session', {
     persist: true,
     state: () => ({
         isAuthenticated: false,
-        name: 'Initial',
+        name: 'Not logged in',
         resumeLocation: null as RouteLocationNormalized | null
     }),
     actions: {
