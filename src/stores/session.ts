@@ -3,6 +3,7 @@ import { oauth2LoginRedirect } from '../helpers/helpers'
 import type { RouteLocationNormalized } from 'vue-router'
 import router from '@/router'
 import { jwtDecode, type JwtPayload } from 'jwt-decode'
+import axios from 'axios'
 
 export const useSessionStore = defineStore('session', {
     persist: true,
@@ -24,20 +25,20 @@ export const useSessionStore = defineStore('session', {
                 grant_type: 'authorization_code'
             })
 
-            const response = await fetch(`${import.meta.env.VITE_OAUTH2_BASE}/token`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: data
-            })
-            const json = await response.json()
-            if (response.ok) {
+            try {
+                const response = await axios.post(`${import.meta.env.VITE_OAUTH2_BASE}/token`, data, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                })
                 this.isAuthenticated = true
+                localStorage.setItem('accessToken', response.data.access_token)
+                localStorage.setItem('idToken', response.data.id_token)
+                localStorage.setItem('refreshToken', response.data.refresh_token)
                 interface IdToken extends JwtPayload {
                     name: string
                 }
-                const jwt = jwtDecode<IdToken>(json.id_token)
+                const jwt = jwtDecode<IdToken>(response.data.id_token)
                 this.name = jwt.name
 
                 if (this.resumeLocation) {
@@ -45,7 +46,7 @@ export const useSessionStore = defineStore('session', {
                 } else {
                     router.replace('/')
                 }
-            } else {
+            } catch {
                 this.isAuthenticated = false
             }
 
@@ -53,7 +54,13 @@ export const useSessionStore = defineStore('session', {
         logout() {
             this.resumeLocation = null
             this.isAuthenticated = false
+            localStorage.removeItem('accessToken')
+            localStorage.removeItem('idToken')
+            localStorage.removeItem('refreshToken')
             window.location.href = `${import.meta.env.VITE_OAUTH2_BASE}/logout`
+        },
+        refresh() {
+
         }
     }
 })
