@@ -1,80 +1,60 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-import { oauth2LoginRedirect } from './helpers/helpers'
+import { useSessionStore } from './stores/session';
+import { storeToRefs } from 'pinia';
 
-onMounted(() => {
-    console.log(oauth2LoginRedirect())
-})
+const sessionStore = useSessionStore()
+const { name } = storeToRefs(sessionStore)
 
 </script>
 
 <template>
-    <RouterLink to="/">Hemma</RouterLink>
-    <RouterLink to="/comp">Comp</RouterLink>
-    <RouterView></RouterView>
+    <div id="topmenu" class="menu">
+        <div class="links">
+            <RouterLink to="/">Hemma</RouterLink>
+            <RouterLink to="comp">Comp</RouterLink>
+        </div>
+        <div class="user">
+            <span>{{ name }}</span>
+            <RouterLink to="logout">Logout</RouterLink>
+        </div>
+    </div>
+    <div id="content">
+        <RouterView></RouterView>
+    </div>
 </template>
 
 <style scoped>
-header {
-    line-height: 1.5;
-    max-height: 100vh;
+#content {
+    padding: 1em;
 }
 
-.logo {
-    display: block;
-    margin: 0 auto 2rem;
+#topmenu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
-nav {
-    width: 100%;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 2rem;
+.menu {
+    background-color: #006699;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
-nav a.router-link-exact-active {
-    color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-    background-color: transparent;
-}
-
-nav a {
+a,
+span {
+    background-color: #006699;
     display: inline-block;
-    padding: 0 1rem;
-    border-left: 1px solid var(--color-border);
+    padding: 1em 0.5em 1em 0.5em;
+    color: #e3f7fc;
+    text-decoration: none;
 }
 
-nav a:first-of-type {
-    border: 0;
+a {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
 }
 
-@media (min-width: 1024px) {
-    header {
-        display: flex;
-        place-items: center;
-        padding-right: calc(var(--section-gap) / 2);
-    }
-
-    .logo {
-        margin: 0 2rem 0 0;
-    }
-
-    header .wrapper {
-        display: flex;
-        place-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    nav {
-        text-align: left;
-        margin-left: -1rem;
-        font-size: 1rem;
-
-        padding: 1rem 0;
-        margin-top: 1rem;
-    }
+a:hover {
+    background-color: #0e86ba;
 }
 </style>
