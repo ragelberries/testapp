@@ -14,7 +14,6 @@ app.use(pinia)
 const sessionStore = useSessionStore()
 
 router.beforeEach((to, from) => {
-    console.log(sessionStore.isAuthenticated)
     if (!sessionStore.isAuthenticated && to.name != 'login-callback') {
         const resumeLocation = to
         sessionStore.loginRedirect(resumeLocation)

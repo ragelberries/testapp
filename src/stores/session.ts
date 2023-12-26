@@ -51,16 +51,30 @@ export const useSessionStore = defineStore('session', {
             }
 
         },
-        logout() {
+        async logout() {
+            const data = new URLSearchParams({
+                client_id: 'testclient',
+                refresh_token: localStorage.getItem('refreshToken') ?? '',
+                id_token_hint: localStorage.getItem('idToken') ?? '',
+                grant_type: 'authorization_code'
+            })
+
+            try {
+                await axios.post(`${import.meta.env.VITE_OAUTH2_BASE}/logout`, data, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken') ?? ''
+                    }
+                })
+            } catch {
+                // Logged out anyway
+            }
             this.resumeLocation = null
             this.isAuthenticated = false
             localStorage.removeItem('accessToken')
             localStorage.removeItem('idToken')
             localStorage.removeItem('refreshToken')
-            window.location.href = `${import.meta.env.VITE_OAUTH2_BASE}/logout`
-        },
-        refresh() {
-
+            router.replace('/')
         }
     }
 })

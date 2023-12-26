@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref, watchEffect } from 'vue';
-import $axios from '@/axios'
+import apiClient from '@/axios'
 interface WeatherEntry {
     date: string,
     summary: string,
@@ -11,10 +11,9 @@ let weatherEntries = reactive([] as WeatherEntry[])
 
 onMounted(async () => {
     try {
-        const response = await $axios.get<WeatherEntry[]>('/weatherforecast')
+        const response = await apiClient.get<WeatherEntry[]>('/weatherforecast')
         weatherEntries = response.data
         loading.value = false
-        console.log(weatherEntries)
     }
     catch {
 
