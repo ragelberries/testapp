@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../components/Home.vue'
 import Comp from '../components/Comp.vue'
-import LoginCallback from '../components/LoginCallback.vue'
+import { LoginCallback, isAuthenticated } from '@/oauth2'
+import { oauth2LoginRedirect } from '@/helpers/helpers'
 import Logout from '../components/Logout.vue'
 
 const router = createRouter({
@@ -28,6 +29,13 @@ const router = createRouter({
             component: Logout
         }
     ]
+})
+
+router.beforeEach((to, from) => {
+    if (to.name != 'login-callback' && !isAuthenticated.value) {
+        localStorage.setItem('resumeLocation', to.fullPath)
+        window.location.href = oauth2LoginRedirect()
+    }
 })
 
 

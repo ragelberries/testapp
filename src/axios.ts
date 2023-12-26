@@ -1,7 +1,6 @@
 import axios, { type AxiosInstance } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import { useSessionStore } from '@/stores/session'
-import { jwtDecode, type JwtPayload } from 'jwt-decode';
+import { logout } from '@/oauth2'
 
 const apiClient: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL
@@ -20,7 +19,6 @@ apiClient.interceptors.request.use(
 );
 
 const refreshAuthLogic = async (failedRequest: any) => {
-    const sessionStore = useSessionStore()
     const refreshToken = localStorage.getItem('refreshToken')
     if (!refreshToken)
         return false
@@ -35,15 +33,8 @@ const refreshAuthLogic = async (failedRequest: any) => {
             'Content-Type': 'application/x-www-form-urlencoded',
         }
     })
-    sessionStore.isAuthenticated = true
     localStorage.setItem('accessToken', response.data.access_token)
-    localStorage.setItem('idToken', response.data.id_token)
     localStorage.setItem('refreshToken', response.data.refresh_token)
-    interface IdToken extends JwtPayload {
-        name: string
-    }
-    const jwt = jwtDecode<IdToken>(response.data.id_token)
-    sessionStore.name = jwt.name
     failedRequest.response.config.headers['Authorization'] = 'Bearer ' + response.data.access_token;
 }
 
@@ -52,7 +43,7 @@ createAuthRefreshInterceptor(apiClient, refreshAuthLogic);
 apiClient.interceptors.response.use(response => response, error => {
     if (error.config.url === import.meta.env.VITE_OAUTH2_BASE + '/token' &&
         error.response && error.response.status === 400) {
-            useSessionStore().logout()
+            logout()
         }
 })
 

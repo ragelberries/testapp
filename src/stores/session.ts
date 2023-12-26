@@ -20,7 +20,7 @@ export const useSessionStore = defineStore('session', {
         async loginCallback(code: string) {
             const data = new URLSearchParams({
                 client_id: 'testclient',
-                redirect_uri: `${import.meta.env.VITE_BASE_URL}/login-callback`,
+                redirect_uri: `${window.location.origin}/login-callback`,
                 code: code,
                 grant_type: 'authorization_code'
             })
@@ -63,7 +63,7 @@ export const useSessionStore = defineStore('session', {
                 await axios.post(`${import.meta.env.VITE_OAUTH2_BASE}/logout`, data, {
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        'Authorization': 'Bearer ' + localStorage.getItem('accessToken') ?? ''
+                        'Authorization': 'Bearer ' + (localStorage.getItem('accessToken') ?? '')
                     }
                 })
             } catch {
