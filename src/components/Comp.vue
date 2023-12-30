@@ -11,6 +11,8 @@ let weatherEntries = reactive([] as WeatherEntry[])
 
 onMounted(async () => {
     try {
+        await apiClient.get<WeatherEntry[]>('/weatherforecast')
+        await apiClient.get<WeatherEntry[]>('/weatherforecast')
         const response = await apiClient.get<WeatherEntry[]>('/weatherforecast')
         weatherEntries = response.data
         loading.value = false

@@ -41,23 +41,11 @@ const refreshAuthLogic = async (failedRequest: any) => {
     failedRequest.response.config.headers["Authorization"] =
       "Bearer " + response.data.access_token;
   } catch {
-    logout();
+    logout(true);
   }
 };
 
 // Instantiate the interceptor
 createAuthRefreshInterceptor(apiClient, refreshAuthLogic);
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (
-      error.config.url === import.meta.env.VITE_OAUTH2_BASE + "/token" &&
-      error.response &&
-      error.response.status === 400
-    ) {
-      logout();
-    }
-  }
-);
 
 export default apiClient;
