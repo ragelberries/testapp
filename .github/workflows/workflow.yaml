@@ -1,8 +1,8 @@
-name: GitHub Actions Demo
+name: Build Testapp and publish
 run-name: Run
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Build-Testapp-And-Publish:
     runs-on: self-hosted
     steps:
       - name: Check out repository code
@@ -34,6 +34,7 @@ jobs:
           commit-message: Updating testapp tag to ${{ github.sha }}
 
       - name: Cleanup
+        if: always()
         run: |
           ls -la ./
           rm -rf ./* || true
