@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { useSessionStore } from './stores/session';
-import { storeToRefs } from 'pinia';
-
-const sessionStore = useSessionStore()
-const { name } = storeToRefs(sessionStore)
+import { name } from '@/oauth2'
 
 </script>
 

@@ -8,7 +8,6 @@ export let isAuthenticated = ref(false)
 export let name = ref('')
 
 export const logout = async () => {
-    console.log('jaha')
     const data = new URLSearchParams({
         client_id: 'testclient',
         id_token_hint: localStorage.getItem('idToken') ?? '',
@@ -47,7 +46,6 @@ export const LoginCallback = defineComponent({
                         'Content-Type': 'application/x-www-form-urlencoded',
                     }
                 })
-                console.log(response)
                 isAuthenticated.value = true
                 localStorage.setItem('accessToken', response.data.access_token)
                 localStorage.setItem('idToken', response.data.id_token)
