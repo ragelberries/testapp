@@ -6,9 +6,6 @@
         "src/**/*.vue",
         "src/stores/*.ts"
     ],
-    "files": [
-        "src/helpers/helpers.ts",
-    ],
   "exclude": [
         "src/**/__tests__/*"
     ],
