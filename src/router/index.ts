@@ -1,40 +1,40 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "../components/Home.vue";
-import Comp from "../components/Comp.vue";
-import { isAuthenticated, logout } from "@/oauth2";
-import LoginCallback from "../components/LoginCallback.vue";
-import Logout from "../components/Logout.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePage from '../components/HomePage.vue'
+import WeatherForecast from '../components/WeatherForecast.vue'
+import { isAuthenticated, logout } from '@/oauth2'
+import LoginCallbackPage from '../components/LoginCallbackPage.vue'
+import LogoutPage from '../components/LogoutPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: Home,
+      path: '/',
+      name: 'home',
+      component: HomePage
     },
     {
-      path: "/comp",
-      name: "comp",
-      component: Comp,
+      path: '/comp',
+      name: 'comp',
+      component: WeatherForecast
     },
     {
-      path: "/login-callback",
-      name: "login-callback",
-      component: LoginCallback,
+      path: '/login-callback',
+      name: 'login-callback',
+      component: LoginCallbackPage
     },
     {
-      path: "/logout",
-      name: "logout",
-      component: Logout,
-    },
-  ],
-});
+      path: '/logout',
+      name: 'logout',
+      component: LogoutPage
+    }
+  ]
+})
 
-router.beforeEach( async(to, from) => {
-  if (to.name != "login-callback" && !isAuthenticated.value) {
+router.beforeEach(async (to, _) => {
+  if (to.name != 'login-callback' && !isAuthenticated.value) {
     await logout(true)
   }
-});
+})
 
-export default router;
+export default router
