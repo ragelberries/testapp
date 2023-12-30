@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { logout } from '@/oauth2'
+import { logout } from './session'
 import { onMounted } from 'vue'
 
 onMounted(async () => {

@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../components/HomePage.vue'
 import WeatherForecast from '../components/WeatherForecast.vue'
-import { isAuthenticated, logout } from '@/oauth2'
-import LoginCallbackPage from '../components/LoginCallbackPage.vue'
-import LogoutPage from '../components/LogoutPage.vue'
+import { isAuthenticated, logout } from '@/oauth2/session'
+import LoginCallbackPage from '@/oauth2/LoginCallbackPage.vue'
+import LogoutPage from '@/oauth2/LogoutPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,7 +32,11 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _) => {
-  if (to.name != 'login-callback' && !isAuthenticated.value) {
+  if (
+    to.name != 'logout' &&
+    to.name != 'login-callback' &&
+    !isAuthenticated.value
+  ) {
     await logout(true)
   }
 })

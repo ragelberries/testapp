@@ -1,10 +1,11 @@
 import axios, { type AxiosInstance } from 'axios'
 import createAuthRefreshInterceptor from 'axios-auth-refresh'
-import { logout } from '@/oauth2'
+import { logout } from './session'
 
 const apiClient: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL
 })
+
 apiClient.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken')
@@ -41,11 +42,10 @@ const refreshAuthLogic = async (failedRequest: any) => {
     failedRequest.response.config.headers['Authorization'] =
       'Bearer ' + response.data.access_token
   } catch {
-    logout(true)
+    await logout(true)
   }
 }
 
-// Instantiate the interceptor
 createAuthRefreshInterceptor(apiClient, refreshAuthLogic)
 
 export default apiClient

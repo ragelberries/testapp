@@ -3,10 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import { isAuthenticated } from '@/oauth2'
+import { setIsAuthenticated, name } from './session'
 import router from '@/router'
 import axios from 'axios'
-import { name } from '@/oauth2'
 import { type JwtPayload, jwtDecode } from 'jwt-decode'
 import { useRoute } from 'vue-router'
 import { onMounted } from 'vue'
@@ -30,7 +29,7 @@ onMounted(async () => {
         }
       }
     )
-    isAuthenticated.value = true
+    setIsAuthenticated(true)
 
     localStorage.setItem('accessToken', response.data.access_token)
     localStorage.setItem('idToken', response.data.id_token)
@@ -49,7 +48,7 @@ onMounted(async () => {
       router.replace('/')
     }
   } catch (e) {
-    isAuthenticated.value = false
+    setIsAuthenticated(false)
   }
 })
 </script>

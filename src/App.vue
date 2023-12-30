@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { name } from '@/oauth2'
+import { name } from '@/oauth2/session'
 </script>
 
 <template>

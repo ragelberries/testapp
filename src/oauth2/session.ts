@@ -1,7 +1,17 @@
 import axios from 'axios'
 import { defineComponent, ref } from 'vue'
 
-export const isAuthenticated = ref(false)
+const isAuthenticatedLocalStorage = localStorage.getItem('isAuthenticated')
+export const isAuthenticated = ref(isAuthenticatedLocalStorage === 'true')
+export const setIsAuthenticated = (value: boolean) => {
+    isAuthenticated.value = value
+    if (value) {
+        localStorage.setItem('isAuthenticated', 'true')
+    } else {
+        localStorage.removeItem('isAuthenticated')
+    }
+}
+
 export const name = ref('')
 
 export const logout = async (redirect: boolean) => {
@@ -25,13 +35,14 @@ export const logout = async (redirect: boolean) => {
   localStorage.removeItem('accessToken')
   localStorage.removeItem('refreshToken')
   localStorage.removeItem('idToken')
+  localStorage.removeItem('isAuthenticated')
   if (redirect) {
     localStorage.setItem('resumeLocation', window.location.pathname)
   } else {
     localStorage.removeItem('resumeLocation')
   }
   window.location.href = oauth2LoginRedirect()
-  isAuthenticated.value = false
+  setIsAuthenticated(false)
 }
 
 export const LoginCallback = defineComponent({
