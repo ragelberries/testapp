@@ -28,15 +28,11 @@ const refreshAuthLogic = async (failedRequest: any) => {
     grant_type: 'refresh_token'
   })
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_OAUTH2_BASE}/token`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    const response = await axios.post(`${import.meta.env.VITE_OAUTH2_BASE}/token`, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-    )
+    })
     localStorage.setItem('accessToken', response.data.access_token)
     localStorage.setItem('refreshToken', response.data.refresh_token)
     failedRequest.response.config.headers['Authorization'] =

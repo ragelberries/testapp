@@ -20,15 +20,11 @@ onMounted(async () => {
   })
 
   try {
-    const response = await axios.post(
-      `${import.meta.env.VITE_OAUTH2_BASE}/token`,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
+    const response = await axios.post(`${import.meta.env.VITE_OAUTH2_BASE}/token`, data, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-    )
+    })
     setIsAuthenticated(true)
 
     localStorage.setItem('accessToken', response.data.access_token)

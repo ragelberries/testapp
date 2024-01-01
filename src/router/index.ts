@@ -32,11 +32,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, _) => {
-  if (
-    to.name != 'logout' &&
-    to.name != 'login-callback' &&
-    !isAuthenticated.value
-  ) {
+  if (to.name != 'logout' && to.name != 'login-callback' && !isAuthenticated.value) {
     await logout(true)
   }
 })
